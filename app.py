@@ -40,9 +40,6 @@ def fetch_users():
     return new_data
 
 
-users = fetch_users()
-
-
 def init_items_table():
     with sqlite3.connect('online_store.db') as conn:
         conn.execute("CREATE TABLE IF NOT EXISTS items (id INTEGER PRIMARY KEY AUTOINCREMENT,"
@@ -57,7 +54,7 @@ def init_items_table():
 init_user_table()
 init_items_table()
 
-user = fetch_users()
+users = fetch_users()
 
 username_table = {u.username: u for u in users}
 userid_table = {u.id: u for u in users}
