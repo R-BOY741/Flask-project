@@ -193,13 +193,28 @@ def edit_items(items_id):
     return response
 
 
-@app.route('/get-price/<int:price_id>/', methods=["GET"])
-def get_post(price_id):
+@app.route('/filter-product/<type>/', methods=["GET"])
+def filter_product(type):
+    response = {}
+    with sqlite3.connect("online_store.db") as conn:
+        cursor = conn.cursor()
+        # cursor.execute("SELECT * FROM items WHERE type LIKE '%" + type + "%'")
+        cursor.execute("SELECT * FROM items")
+
+        posts = cursor.fetchall()
+
+    response['status_code'] = 200
+    response['data'] = posts
+    return jsonify(response)
+
+
+@app.route('/get-items/<int:items_id>/', methods=["GET"])
+def get_post(items_id):
     response = {}
 
     with sqlite3.connect("online_store.db") as conn:
         cursor = conn.cursor()
-        cursor.execute("SELECT * FROM items WHERE id=" + str(price_id))
+        cursor.execute("SELECT * FROM items WHERE id=" + str(items_id))
 
         response["status_code"] = 200
         response["description"] = "items retrieved successfully"
