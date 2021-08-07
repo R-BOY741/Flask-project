@@ -144,8 +144,8 @@ def get_items():
 
         posts = cursor.fetchall()
 
-    response['status_code'] = 200
-    response['data'] = posts
+        response['status_code'] = 200
+        response['data'] = posts
     return response
 
 
@@ -203,8 +203,8 @@ def filter_product(type):
 
         posts = cursor.fetchall()
 
-    response['status_code'] = 200
-    response['data'] = posts
+        response['status_code'] = 200
+        response['data'] = posts
     return jsonify(response)
 
 
