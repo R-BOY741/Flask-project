@@ -8,6 +8,13 @@ from flask_jwt import JWT, jwt_required, current_identity
 from flask_cors import CORS
 
 
+# Function to help format data from database into dictionary objects
+def dict_factory(cursor, row):
+    d = {}
+    for idx, col in enumerate(cursor.description):
+        d[col[0]] = row[idx]
+    return d
+
 
 class User(object):
     def __init__(self, id, username, password):
@@ -90,7 +97,7 @@ CORS(app)
 #     return '%s' % current_identity
 
 
-@app.route('/user-registration/', methods=["POST"])
+@app.route('/user-registration/', methods=["POST", "PATCH"])
 def user_registration():
     response = {}
 
@@ -117,6 +124,22 @@ def user_registration():
             response["status_code"] = 400
         return response
 
+    # LOGIN
+    if request.method == "PATCH":
+        username = request.json["username"]
+        password = request.json["password"]
+
+        with sqlite3.connect("online_store.db") as conn:
+            conn.row_factory = dict_factory
+            cursor = conn.cursor()
+            cursor.execute("SELECT * FROM user WHERE username=? AND password=?", (username, password))
+
+            user = cursor.fetchone()
+
+        response["status_code"] = 200
+        response["data"] = user
+        return response
+
 
 @app.route('/create-items/', methods=["POST"])
 # @jwt_required()
@@ -124,11 +147,11 @@ def create_items():
     response = {}
 
     if request.method == "POST":
-        name = request.form['name']
-        price = request.form['price']
-        _type = request.form['type']
-        image = request.form['image']
-        description = request.form['description']
+        name = request.jason['name']
+        price = request.jason['price']
+        _type = request.jason['type']
+        image = request.jason['image']
+        description = request.jason['description']
 
         date_created = datetime.datetime.now()
 
