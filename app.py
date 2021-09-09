@@ -147,11 +147,11 @@ def create_items():
     response = {}
 
     if request.method == "POST":
-        name = request.jason['name']
-        price = request.jason['price']
-        _type = request.jason['type']
-        image = request.jason['image']
-        description = request.jason['description']
+        name = request.json['name']
+        price = request.json['price']
+        _type = request.json['type']
+        image = request.json['image']
+        description = request.json['description']
 
         date_created = datetime.datetime.now()
 
