@@ -65,6 +65,9 @@ def init_items_table():
 init_user_table()
 init_items_table()
 
+
+
+
 # users = fetch_users()
 
 # username_table = {u.username: u for u in users}
